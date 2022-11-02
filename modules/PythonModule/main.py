@@ -6,13 +6,24 @@ import time
 import os
 import sys
 import asyncio
-from six.moves import input
+# 2022 11 01 MV: COMMENTED-OUT the 'input' import - NOW BUILT-INTO python!!!
+#from six.moves import input
 import threading
 from azure.iot.device.aio import IoTHubModuleClient
+# 2022 11 01 MV: added following import to get BETTER string of current version of python...
+from platform import python_version
+# 2022 11 01 MV: tried adding ANOTHER package for parsing PYTHON VERSIONS which are STRINGS like "3.11.7"...
+from packaging.version import parse
 
 async def main():
     try:
-        if not sys.version >= "3.5.3":
+        str_currentPythonVersion = python_version()
+        currentPythonVersion = parse(str_currentPythonVersion)
+        minimalPythonVersion = parse("3.5.3")
+        if not currentPythonVersion >= minimalPythonVersion:
+        #if not currentPythonVersion >= "3.5.3":
+        # 2022 11 01 MV: this ORIGINAL code COULDN'T POSSIBLY WORK - it's complete BULLSHIT >:-(  ) !!! 
+        #if not sys.version >= "3.5.3":
             raise Exception( "The sample requires python 3.5.3+. Current version of Python: %s" % sys.version )
         print ( "IoT Hub Client for Python" )
 
